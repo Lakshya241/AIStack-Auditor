@@ -10,6 +10,9 @@ coverage/
 .next/
 out/
 
+# TypeScript build cache
+tsconfig.tsbuildinfo
+
 # Production
 build/
 dist/
@@ -39,7 +42,7 @@ lerna-debug.log*
 .classpath
 
 # Project specific
-.kiro/
+# .kiro/ — uncomment to exclude spec files from git
 
 # OS
 Thumbs.db
