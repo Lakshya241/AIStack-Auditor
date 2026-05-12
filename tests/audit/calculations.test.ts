@@ -33,7 +33,7 @@ describe("Property 9: Savings Aggregation Invariant", () => {
       fc.property(
         fc.array(
           fc.record({
-            monthlySavings: fc.float({ min: 0.01, max: 10000, noNaN: true }),
+            monthlySavings: fc.float({ min: Math.fround(0.01), max: Math.fround(10000), noNaN: true }),
           }),
           { minLength: 0, maxLength: 20 }
         ),
@@ -64,8 +64,8 @@ describe("Property 10: Monetary Value Invariants", () => {
   it("yearlySavings equals monthlySavings * 12, both rounded to 2dp, monthlySavings > 0", () => {
     fc.assert(
       fc.property(
-        fc.float({ min: 0.01, max: 100000, noNaN: true }),
-        fc.float({ min: 0, max: 100000, noNaN: true }),
+        fc.float({ min: Math.fround(0.01), max: Math.fround(100000), noNaN: true }),
+        fc.float({ min: 0, max: Math.fround(100000), noNaN: true }),
         fc.integer({ min: 1, max: 10000 }),
         (currentPrice, recommendedPrice, seats) => {
           // Only test when current > recommended (positive savings)
@@ -107,8 +107,8 @@ describe("Property 11: Optimization Score Formula and Range", () => {
   it("score is always an integer between 0 and 100", () => {
     fc.assert(
       fc.property(
-        fc.float({ min: 0.01, max: 1000000, noNaN: true }),
-        fc.float({ min: 0, max: 1000000, noNaN: true }),
+        fc.float({ min: Math.fround(0.01), max: Math.fround(1000000), noNaN: true }),
+        fc.float({ min: 0, max: Math.fround(1000000), noNaN: true }),
         (totalCurrentSpend, totalMonthlySavings) => {
           const score = computeScore(totalCurrentSpend, totalMonthlySavings);
           expect(score).toBeGreaterThanOrEqual(0);
@@ -123,8 +123,8 @@ describe("Property 11: Optimization Score Formula and Range", () => {
   it("score formula: clamp(round((1 - savings/spend) * 100), 0, 100) when spend > 0", () => {
     fc.assert(
       fc.property(
-        fc.float({ min: 0.01, max: 1000000, noNaN: true }),
-        fc.float({ min: 0, max: 1000000, noNaN: true }),
+        fc.float({ min: Math.fround(0.01), max: Math.fround(1000000), noNaN: true }),
+        fc.float({ min: 0, max: Math.fround(1000000), noNaN: true }),
         (totalCurrentSpend, totalMonthlySavings) => {
           const score = computeScore(totalCurrentSpend, totalMonthlySavings);
           const raw = (1 - totalMonthlySavings / totalCurrentSpend) * 100;
